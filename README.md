@@ -8,12 +8,13 @@ Items within 15 tiles are listed in a 4 by 4 grid. The panel shows each stack’
 
 - Lists takeable ground items within 15 tiles.
 - Shows up to 16 stacks, with the full match count and value totals.
+- Hover a slot to see the item name.
 - Sorts by Grand Exchange value, quantity, or name.
 - Hides ignored, unpriced, or low-value stacks. An always-show list bypasses those filters.
 - Left-click a slot to select it. The tile is marked, and other items on that pile are deprioritized so the selection is the left-click. Click that slot again to unmark it.
 - Right-click a slot to add or remove that item from the ignore list or the always-show list.
 - Hold Alt and drag the panel to move it.
-- Collapses to a satchel button, and can collapse automatically when nothing matches.
+- Collapses to a satchel button, and can collapse automatically when nothing matches. It can also open again when loot appears.
 
 ## Configuration
 
@@ -26,7 +27,8 @@ Items within 15 tiles are listed in a 4 by 4 grid. The panel shows each stack’
 | Always show items | Comma-separated item names that bypass the ignore, minimum-value, and unpriced filters. | Empty |
 | Sort order | Value, quantity, or name. | Value |
 | Show quantity | Draw the stack size on each icon. | On |
-| Auto-collapse when empty | Collapse the panel when no items match, and expand it when some do. | On |
+| Auto-collapse when empty | Collapse the panel when no items match. | On |
+| Open panel when loot appears | Expand the panel when eligible loot appears. Turn this off to leave the panel closed after you collapse it. | On |
 | Show GE total | Show the total Grand Exchange value of matching items. | On |
 | Show high-alch total | Show the total high-alchemy value of matching items. | On |
 | Clear highlight after | Seconds before a selected tile is unmarked. 0 keeps the mark until you click that item again. | 0 |

@@ -336,6 +336,16 @@ public class GroundLootMenuPlugin extends Plugin
 		return selectedEntry;
 	}
 
+	LootEntry getHoveredEntry()
+	{
+		if (!config.highlightOnHover())
+		{
+			return null;
+		}
+
+		return overlay.getHoveredEntry();
+	}
+
 	private void updateHover(MouseEvent event)
 	{
 		Rectangle bounds = overlay.getBounds();

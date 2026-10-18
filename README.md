@@ -8,7 +8,7 @@ Items within 15 tiles are listed in a 4 by 4 grid. The panel shows each stack’
 
 - Lists takeable ground items within 15 tiles.
 - Shows up to 16 stacks, with the full match count and value totals.
-- Hover a slot to see the item name.
+- Hover a slot to see the item name. The pile is highlighted while the cursor stays on that slot.
 - Sorts by Grand Exchange value, quantity, or name.
 - Hides ignored, unpriced, or low-value stacks. An always-show list bypasses those filters.
 - Left-click a slot to select it. The tile is marked, and other items on that pile are deprioritized so the selection is the left-click. Click that slot again to unmark it.
@@ -32,5 +32,6 @@ Items within 15 tiles are listed in a 4 by 4 grid. The panel shows each stack’
 | Show GE total | Show the total Grand Exchange value of matching items. | On |
 | Show high-alch total | Show the total high-alchemy value of matching items. | On |
 | Clear highlight after | Seconds before a selected tile is unmarked. 0 keeps the mark until you click that item again. | 0 |
+| Highlight tile on hover | Show a tile highlight while the cursor is over a slot. It clears when the cursor leaves, and does not change the left-click. | On |
 
 Names in both lists are matched without regard to case. Separate names with commas or new lines.

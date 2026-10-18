@@ -39,6 +39,7 @@ public class GroundLootMenuOverlay extends Overlay
 	private static final Font QUANTITY_FONT = new Font("SansSerif", Font.BOLD, 10);
 	private static final Font VALUE_FONT = new Font("SansSerif", Font.BOLD, 9);
 	private static final Stroke SELECTED_STROKE = new BasicStroke(2.5f);
+	private static final Stroke HOVER_STROKE = new BasicStroke(1.5f);
 
 	private static final Color BACKGROUND = new Color(22, 19, 16, 245);
 	private static final Color SLOT_BACKGROUND = new Color(34, 30, 25, 238);
@@ -113,6 +114,18 @@ public class GroundLootMenuOverlay extends Overlay
 	{
 		hoverX = x;
 		hoverY = y;
+	}
+
+	LootEntry getHoveredEntry()
+	{
+		int x = hoverX;
+		int y = hoverY;
+		if (x < 0 || y < 0)
+		{
+			return null;
+		}
+
+		return getEntryAt(x, y);
 	}
 
 	public boolean isCollapsed()
@@ -218,7 +231,7 @@ public class GroundLootMenuOverlay extends Overlay
 			return;
 		}
 
-		LootEntry entry = getEntryAt(x, y);
+		LootEntry entry = getHoveredEntry();
 		if (entry == null)
 		{
 			return;
@@ -339,6 +352,14 @@ public class GroundLootMenuOverlay extends Overlay
 			graphics.fillRoundRect(x, y, SLOT_WIDTH, SLOT_HEIGHT, 5, 5);
 			graphics.setColor(new Color(255, 225, 135, 115 + (int) (140 * pulse)));
 			graphics.setStroke(SELECTED_STROKE);
+			graphics.drawRoundRect(x + 1, y + 1, SLOT_WIDTH - 2, SLOT_HEIGHT - 2, 5, 5);
+			graphics.setStroke(previousStroke);
+		}
+		else if (config.highlightOnHover() && entry.samePileItem(getHoveredEntry()))
+		{
+			Stroke previousStroke = graphics.getStroke();
+			graphics.setColor(new Color(255, 225, 135, 170));
+			graphics.setStroke(HOVER_STROKE);
 			graphics.drawRoundRect(x + 1, y + 1, SLOT_WIDTH - 2, SLOT_HEIGHT - 2, 5, 5);
 			graphics.setStroke(previousStroke);
 		}

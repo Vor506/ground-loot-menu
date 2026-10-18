@@ -37,24 +37,40 @@ public class GroundLootTargetOverlay extends Overlay
 	@Override
 	public Dimension render(Graphics2D graphics)
 	{
-		LootEntry selected = plugin.getSelectedEntry();
-		if (selected == null || client.getLocalPlayer() == null
-			|| selected.getLocation().getPlane() != client.getPlane())
+		if (client.getLocalPlayer() == null)
 		{
 			return null;
 		}
 
-		LocalPoint localPoint = LocalPoint.fromWorld(client, selected.getLocation());
+		LootEntry selected = plugin.getSelectedEntry();
+		LootEntry hovered = plugin.getHoveredEntry();
+		renderMarker(graphics, selected);
+		if (hovered != null && !sameTile(selected, hovered))
+		{
+			renderMarker(graphics, hovered);
+		}
+
+		return null;
+	}
+
+	private void renderMarker(Graphics2D graphics, LootEntry entry)
+	{
+		if (entry == null || entry.getLocation().getPlane() != client.getPlane())
+		{
+			return;
+		}
+
+		LocalPoint localPoint = LocalPoint.fromWorld(client, entry.getLocation());
 		if (localPoint == null)
 		{
-			return null;
+			return;
 		}
 
 		Polygon tile = Perspective.getCanvasTilePoly(client, localPoint);
 		Point canvasPoint = Perspective.localToCanvas(client, localPoint, client.getPlane(), 0);
 		if (tile == null || canvasPoint == null)
 		{
-			return null;
+			return;
 		}
 
 		double pulse = 0.5 + 0.5 * Math.sin(System.currentTimeMillis() / 140.0);
@@ -88,6 +104,10 @@ public class GroundLootTargetOverlay extends Overlay
 		graphics.setStroke(ARROW_STROKE);
 		graphics.drawPolygon(arrow);
 		graphics.setStroke(oldStroke);
-		return null;
+	}
+
+	private static boolean sameTile(LootEntry selected, LootEntry hovered)
+	{
+		return selected != null && selected.getLocation().equals(hovered.getLocation());
 	}
 }

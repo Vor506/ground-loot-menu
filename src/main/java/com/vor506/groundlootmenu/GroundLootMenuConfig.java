@@ -150,4 +150,15 @@ public interface GroundLootMenuConfig extends Config
 	{
 		return 0;
 	}
+
+	@ConfigItem(
+		keyName = "highlightOnHover",
+		name = "Highlight tile on hover",
+		description = "Show a tile highlight while the cursor is over a slot. It clears when the cursor leaves, and does not change the left-click.",
+		position = 13
+	)
+	default boolean highlightOnHover()
+	{
+		return true;
+	}
 }

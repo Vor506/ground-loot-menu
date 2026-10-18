@@ -97,7 +97,7 @@ public interface GroundLootMenuConfig extends Config
 	@ConfigItem(
 		keyName = "autoCollapse",
 		name = "Auto-collapse when empty",
-		description = "Collapse the panel when no items pass the filters and expand it when eligible loot appears.",
+		description = "Collapse the panel when no items pass the filters.",
 		position = 8
 	)
 	default boolean autoCollapse()
@@ -106,10 +106,21 @@ public interface GroundLootMenuConfig extends Config
 	}
 
 	@ConfigItem(
+		keyName = "autoExpand",
+		name = "Open panel when loot appears",
+		description = "Expand the panel when eligible loot appears. Turn this off to leave the panel closed after you collapse it.",
+		position = 9
+	)
+	default boolean autoExpand()
+	{
+		return true;
+	}
+
+	@ConfigItem(
 		keyName = "showGeTotal",
 		name = "Show GE total",
 		description = "Display the total Grand Exchange value.",
-		position = 9
+		position = 10
 	)
 	default boolean showGeTotal()
 	{
@@ -120,7 +131,7 @@ public interface GroundLootMenuConfig extends Config
 		keyName = "showHighAlchTotal",
 		name = "Show high-alch total",
 		description = "Display the total high-alchemy value.",
-		position = 10
+		position = 11
 	)
 	default boolean showHighAlchTotal()
 	{
@@ -133,7 +144,7 @@ public interface GroundLootMenuConfig extends Config
 		keyName = "highlightSeconds",
 		name = "Clear highlight after",
 		description = "Seconds before a selected tile is unmarked. Set to 0 to keep the mark until you click that item again.",
-		position = 11
+		position = 12
 	)
 	default int highlightSeconds()
 	{

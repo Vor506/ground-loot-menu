@@ -158,8 +158,17 @@ public class GroundLootMenuPlugin extends Plugin
 		}
 
 		@Override
+		public MouseEvent mouseMoved(MouseEvent event)
+		{
+			updateHover(event);
+			return event;
+		}
+
+		@Override
 		public MouseEvent mouseDragged(MouseEvent event)
 		{
+			updateHover(event);
+
 			if (dragging && dragOffset != null)
 			{
 				overlay.setPreferredLocation(new Point(
@@ -168,6 +177,13 @@ public class GroundLootMenuPlugin extends Plugin
 				event.consume();
 			}
 
+			return event;
+		}
+
+		@Override
+		public MouseEvent mouseExited(MouseEvent event)
+		{
+			overlay.setHover(-1, -1);
 			return event;
 		}
 
@@ -301,9 +317,11 @@ public class GroundLootMenuPlugin extends Plugin
 				selectedEntry);
 
 		boolean hasEligibleLoot = !found.isEmpty();
-		if (config.autoCollapse() && hasEligibleLoot != hadEligibleLoot)
+		if (hasEligibleLoot != hadEligibleLoot)
 		{
-			if (hasEligibleLoot == overlay.isCollapsed())
+			boolean expand = hasEligibleLoot && config.autoExpand() && overlay.isCollapsed();
+			boolean collapse = !hasEligibleLoot && config.autoCollapse() && !overlay.isCollapsed();
+			if (expand || collapse)
 			{
 				overlay.toggleCollapsed();
 			}
@@ -316,6 +334,18 @@ public class GroundLootMenuPlugin extends Plugin
 	{
 		expireSelection();
 		return selectedEntry;
+	}
+
+	private void updateHover(MouseEvent event)
+	{
+		Rectangle bounds = overlay.getBounds();
+		if (bounds == null || !bounds.contains(event.getPoint()))
+		{
+			overlay.setHover(-1, -1);
+			return;
+		}
+
+		overlay.setHover(event.getX() - bounds.x, event.getY() - bounds.y);
 	}
 
 	private void selectEntry(LootEntry entry)

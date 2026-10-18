@@ -14,6 +14,8 @@ import net.runelite.client.game.ItemManager;
 import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayLayer;
 import net.runelite.client.ui.overlay.OverlayPosition;
+import net.runelite.client.ui.overlay.tooltip.Tooltip;
+import net.runelite.client.ui.overlay.tooltip.TooltipManager;
 
 public class GroundLootMenuOverlay extends Overlay
 {
@@ -59,18 +61,22 @@ public class GroundLootMenuOverlay extends Overlay
 
 	private final ItemManager itemManager;
 	private final GroundLootMenuConfig config;
+	private final TooltipManager tooltipManager;
 	private List<LootEntry> entries = Collections.emptyList();
 	private LootEntry selectedEntry;
 	private String itemCountText = "0 items";
 	private String geTotalText = "G.E Value: 0";
 	private String highAlchTotalText = "High alch value: 0";
 	private boolean collapsed;
+	private volatile int hoverX = -1;
+	private volatile int hoverY = -1;
 
 	@Inject
-	public GroundLootMenuOverlay(ItemManager itemManager, GroundLootMenuConfig config)
+	public GroundLootMenuOverlay(ItemManager itemManager, GroundLootMenuConfig config, TooltipManager tooltipManager)
 	{
 		this.itemManager = itemManager;
 		this.config = config;
+		this.tooltipManager = tooltipManager;
 		setPosition(OverlayPosition.DETACHED);
 		setLayer(OverlayLayer.ABOVE_WIDGETS);
 		setPreferredLocation(new Point(30, 120));
@@ -98,7 +104,15 @@ public class GroundLootMenuOverlay extends Overlay
 	void reset()
 	{
 		collapsed = false;
+		hoverX = -1;
+		hoverY = -1;
 		showLoot(Collections.emptyList(), 0, "0", "0", null);
+	}
+
+	void setHover(int x, int y)
+	{
+		hoverX = x;
+		hoverY = y;
 	}
 
 	public boolean isCollapsed()
@@ -191,7 +205,26 @@ public class GroundLootMenuOverlay extends Overlay
 		}
 
 		renderTotals(graphics);
+		renderTooltip();
 		return new Dimension(WIDTH, HEIGHT);
+	}
+
+	private void renderTooltip()
+	{
+		int x = hoverX;
+		int y = hoverY;
+		if (x < 0 || y < 0)
+		{
+			return;
+		}
+
+		LootEntry entry = getEntryAt(x, y);
+		if (entry == null)
+		{
+			return;
+		}
+
+		tooltipManager.add(new Tooltip(entry.getName()));
 	}
 
 	private void renderTotals(Graphics2D graphics)

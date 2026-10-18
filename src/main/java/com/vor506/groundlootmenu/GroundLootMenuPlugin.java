@@ -87,6 +87,7 @@ public class GroundLootMenuPlugin extends Plugin
 	private ConfigManager configManager;
 
 	private volatile LootEntry selectedEntry;
+	private long selectedAtMillis;
 	private boolean dragging;
 	private boolean hadEligibleLoot;
 	private Point dragOffset;
@@ -206,6 +207,7 @@ public class GroundLootMenuPlugin extends Plugin
 		overlayManager.remove(targetOverlay);
 		hideQuickAddMenu();
 		selectedEntry = null;
+		selectedAtMillis = 0L;
 		hadEligibleLoot = false;
 		dragging = false;
 		dragOffset = null;
@@ -219,6 +221,7 @@ public class GroundLootMenuPlugin extends Plugin
 	@Subscribe
 	public void onMenuEntryAdded(MenuEntryAdded event)
 	{
+		expireSelection();
 		LootEntry selected = selectedEntry;
 		if (selected == null)
 		{
@@ -283,6 +286,7 @@ public class GroundLootMenuPlugin extends Plugin
 		long[] totals = new long[2];
 		List<LootEntry> found = collectLoot(player.getWorldLocation(), local, tiles[plane], totals);
 		sortLoot(found);
+		expireSelection();
 		updateSelectedEntry(found);
 
 		int visibleCount = Math.min(GroundLootMenuOverlay.VISIBLE_SLOTS, found.size());
@@ -310,18 +314,53 @@ public class GroundLootMenuPlugin extends Plugin
 
 	LootEntry getSelectedEntry()
 	{
+		expireSelection();
 		return selectedEntry;
 	}
 
 	private void selectEntry(LootEntry entry)
 	{
+		if (entry.samePileItem(selectedEntry))
+		{
+			clearSelection();
+			return;
+		}
+
 		selectedEntry = entry;
+		selectedAtMillis = System.currentTimeMillis();
 		overlay.setSelectedEntry(entry);
+	}
+
+	private void clearSelection()
+	{
+		selectedEntry = null;
+		selectedAtMillis = 0L;
+		overlay.setSelectedEntry(null);
+	}
+
+	private void expireSelection()
+	{
+		if (selectedEntry == null)
+		{
+			return;
+		}
+
+		int seconds = config.highlightSeconds();
+		if (seconds <= 0)
+		{
+			return;
+		}
+
+		if (System.currentTimeMillis() - selectedAtMillis >= seconds * 1000L)
+		{
+			clearSelection();
+		}
 	}
 
 	private void clearLoot(boolean collapseWhenEmpty)
 	{
 		selectedEntry = null;
+		selectedAtMillis = 0L;
 		overlay.showLoot(Collections.emptyList(), 0, "0", "0", null);
 		if (collapseWhenEmpty && config.autoCollapse() && !overlay.isCollapsed())
 		{

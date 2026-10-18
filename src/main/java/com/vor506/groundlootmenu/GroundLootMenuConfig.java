@@ -4,6 +4,7 @@ import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
 import net.runelite.client.config.Range;
+import net.runelite.client.config.Units;
 
 @ConfigGroup("groundlootmenu")
 public interface GroundLootMenuConfig extends Config
@@ -124,5 +125,18 @@ public interface GroundLootMenuConfig extends Config
 	default boolean showHighAlchTotal()
 	{
 		return true;
+	}
+
+	@Range(min = 0, max = 300)
+	@Units(Units.SECONDS)
+	@ConfigItem(
+		keyName = "highlightSeconds",
+		name = "Clear highlight after",
+		description = "Seconds before a selected tile is unmarked. Set to 0 to keep the mark until you click that item again.",
+		position = 11
+	)
+	default int highlightSeconds()
+	{
+		return 0;
 	}
 }

@@ -2,7 +2,7 @@
 
 Shows nearby ground items in a movable panel and highlights the pile you select.
 
-Items within 15 tiles are listed in a 4 by 4 grid. The panel shows each stack’s Grand Exchange value, plus the Grand Exchange and high-alch totals for everything that passes the filters. Clicking a slot marks that item. The marked tile is highlighted, and that item becomes the left-click on its pile. You still pick the item up by clicking it in the game.
+Items within 15 tiles are listed in a 4 by 4 grid. The panel shows each stack’s Grand Exchange value, plus the Grand Exchange and high-alch totals for everything that passes the filters. Clicking a slot marks that item. The marked tile is highlighted, and that item becomes the left-click on its pile. Click the same slot again to unmark it, or set a timer that clears the mark on its own. You still pick the item up by clicking it in the game.
 
 ## Features
 
@@ -10,7 +10,7 @@ Items within 15 tiles are listed in a 4 by 4 grid. The panel shows each stack’
 - Shows up to 16 stacks, with the full match count and value totals.
 - Sorts by Grand Exchange value, quantity, or name.
 - Hides ignored, unpriced, or low-value stacks. An always-show list bypasses those filters.
-- Left-click a slot to select it. The tile is marked, and other items on that pile are deprioritized so the selection is the left-click.
+- Left-click a slot to select it. The tile is marked, and other items on that pile are deprioritized so the selection is the left-click. Click that slot again to unmark it.
 - Right-click a slot to add or remove that item from the ignore list or the always-show list.
 - Hold Alt and drag the panel to move it.
 - Collapses to a satchel button, and can collapse automatically when nothing matches.
@@ -29,5 +29,6 @@ Items within 15 tiles are listed in a 4 by 4 grid. The panel shows each stack’
 | Auto-collapse when empty | Collapse the panel when no items match, and expand it when some do. | On |
 | Show GE total | Show the total Grand Exchange value of matching items. | On |
 | Show high-alch total | Show the total high-alchemy value of matching items. | On |
+| Clear highlight after | Seconds before a selected tile is unmarked. 0 keeps the mark until you click that item again. | 0 |
 
 Names in both lists are matched without regard to case. Separate names with commas or new lines.
